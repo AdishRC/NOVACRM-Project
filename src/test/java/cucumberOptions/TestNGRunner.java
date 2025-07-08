@@ -5,7 +5,10 @@ import io.cucumber.testng.CucumberOptions;
 import org.testng.annotations.DataProvider;
 
 @CucumberOptions(
-        features = "src/main/resources/homepage.feature",
+        features = {
+                "src/main/resources/A_login.feature",
+                "src/main/resources/B_homepage.feature"
+        },
         glue = "stepDefinitions",
         monochrome = true,
         plugin = {
@@ -22,4 +25,5 @@ public class TestNGRunner extends AbstractTestNGCucumberTests {
 //                return super.scenarios();
 //        }
 }
+
 

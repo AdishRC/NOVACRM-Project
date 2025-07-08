@@ -37,14 +37,6 @@
             <version>7.14.0</version>
         </dependency>
 
-        <!-- TestNG -->
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>7.10.1</version>
-            <scope>test</scope>
-        </dependency>
-
 
         <dependency>
             <groupId>com.sun.mail</groupId>
