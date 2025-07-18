@@ -28,13 +28,14 @@ public class LoginValidation {
     }
 
     public void clickLogin() {
+        page.waitForTimeout(2000);
         page.click("xpath=//button[@type='submit']");
         page.waitForTimeout(2000);
         System.out.println("Clicked Login Button");
     }
 
     public void logout () {
-        //page.waitForTimeout(8000);
+        page.waitForTimeout(6000);
         page.locator(clickOnAvtar).click();
         page.waitForTimeout(2000);
         String userName = page.locator(getText).innerText();
@@ -45,7 +46,7 @@ public class LoginValidation {
     }
 
     public boolean isLoginFailed() {
-        page.waitForTimeout(2000);
+        page.waitForTimeout(3000);
         return page.locator(invalidCredentialsLocator).isVisible();
     }
     public String getLoginErrorMessage() {
@@ -58,13 +59,13 @@ public class LoginValidation {
 //====================================================== Forgot Password =========================================================
 
     public void clickForgotPassword() {
-        page.waitForTimeout(2000);
+        page.waitForTimeout(3000);
         page.locator(forgotPasswordLink).click();
         System.out.println("Clicked on Forgot Password link");
     }
 
     public void enterEmail(String email) {
-        page.waitForTimeout(2000);
+        page.waitForTimeout(3000);
         page.locator(emailInput).fill(email);
         System.out.println("Entered email: " + email);
     }
@@ -86,7 +87,7 @@ public class LoginValidation {
     }
 
     public void clickBackToLogin() {
-        page.waitForTimeout(2000);
+        page.waitForTimeout(3000);
         page.locator(backToLoginButton).click();
         System.out.println("User successfully redirected to the Login page");
     }

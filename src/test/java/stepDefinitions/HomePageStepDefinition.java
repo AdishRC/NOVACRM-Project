@@ -4,11 +4,11 @@ import com.microsoft.playwright.Page;
 import io.cucumber.java.en.*;
 import pageObject.HomePage;
 import utils.TestContextSetup;
-
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Properties;
 
 public class HomePageStepDefinition {
-
     public Page page;
     public HomePage homePage;
     TestContextSetup testContext;
@@ -78,11 +78,22 @@ public class HomePageStepDefinition {
     }
 
     //================================ Home Page Send Email StepDefinition ====================================
-    @When("The user clicks on the Send a Email icon with {string}")
-    public void the_user_clicks_on_the_send_a_email_icon_with(String email) {
-        boolean result = homePage.clickSendEmailIcon(email);
-        if (!result) {
-            throw new AssertionError("No recipient found for email: " + email);
+    @When("The user clicks on the Send a Email icon")
+    public void the_user_clicks_on_the_send_a_email_icon() {
+        try {
+            FileInputStream fis = new FileInputStream("src/test/java/resource/global.properties");
+            Properties prop = new Properties();
+            prop.load(fis);
+
+            String email = prop.getProperty("NewEmail"); // Use your updated property key
+            boolean result = homePage.clickSendEmailIcon(email);
+            if (!result) {
+                throw new AssertionError("No recipient found for email: " + email);
+            }
+
+            fis.close(); // Close your file stream
+        } catch (Exception e) {
+            throw new RuntimeException("Error loading global properties: " + e.getMessage());
         }
     }
 
@@ -95,7 +106,6 @@ public class HomePageStepDefinition {
     public void enter_the_data_in_the_body_and_click_on_the_send_email_now_button() {
         homePage.clickEmailNowButton();
     }
-
 
     //================================== Home Page Make a call StepDefinition ====================================
     @When("The user clicks on the Make a Call icon")
@@ -283,6 +293,5 @@ public class HomePageStepDefinition {
     public void the_user_clicks_on_the_link_to_navigate_to_the_social_media_page(String linkText) {
         homePage.clickViewMore();
     }
-
 }
 

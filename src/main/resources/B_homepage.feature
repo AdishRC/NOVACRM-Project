@@ -21,11 +21,13 @@ Feature: Verify and validate the dashboard field functionality
     Then The user enters a name or phone number
     And Writes a message and clicks on the Send Message button to send the message to the user
 
-  Scenario: Verify and validate the "Send an Email" functionality
+    Scenario: Verify and validate the "Send an Email" functionality
     Given User logs in with valid credentials and lands on the dashboard page
-    When The user clicks on the Send a Email icon with "vijay@mmnovatech.com"
+      When The user clicks on the Send a Email icon
     Then User enter the Recipient name and add the Subject
     And Enter the data in the body and click on the Send Email Now button
+
+
 
   Scenario: Verify and validate the "Make a Call" functionality
     Given User logs in with valid credentials and lands on the dashboard page
@@ -74,7 +76,7 @@ Feature: Verify and validate the dashboard field functionality
     Then User verifies the emails for the last 30 days
     And User clicks on the View More to redirect the Email Marketing page
 
-  Scenario: Verify and validate the "Home Page Email Marketing" functionality
+  Scenario: Verify and validate the "Home Tasks" functionality
     Given User logs in with valid credentials and lands on the dashboard page
     When User unchecked the checkbox on tasks page
     Then User click on View More to redirect the Tasks page
@@ -84,11 +86,11 @@ Feature: Verify and validate the dashboard field functionality
     When User Click on View All link
     Then User navigate to the Automation page
 
-#  Scenario: Verify and validate the "Social Media" functionality for all filters
-#    Given User logs in with valid credentials and lands on the dashboard page
-#    When the user selects "Facebook" as the social media account type
-#    Then the user applies all available filters sequentially
-#    When the user selects "Instagram" as the social media account type
-#    Then the user applies all available filters sequentially
-#    And the user clicks on the "View More" link to navigate to the Social Media page
+  Scenario: Verify and validate the "Social Media" functionality for all filters
+    Given User logs in with valid credentials and lands on the dashboard page
+    When the user selects "Facebook" as the social media account type
+    Then the user applies all available filters sequentially
+    When the user selects "Instagram" as the social media account type
+    Then the user applies all available filters sequentially
+    And the user clicks on the "View More" link to navigate to the Social Media page
 

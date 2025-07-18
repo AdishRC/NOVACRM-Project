@@ -1,13 +1,15 @@
 package pageObject;
 
+import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.SelectOption;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import utils.TestContextSetup;
-
 import java.io.FileInputStream;
+import java.util.Arrays;
 import java.util.Properties;
+
 
 public class HomePage {
     private final Page page;
@@ -86,61 +88,7 @@ public class HomePage {
     private final String incompleteFollowUpsViewAll = "//a[contains(@href,'/people?incomplete_follow_up=true')][normalize-space()='View All']";
 
     //================================= Email Marketing Locators ==========================================
-    //Today
     private final String clickFilter = "//div[@class='Homepage_emailMarketingContainer__ocQ4K']//select";
-    private final String selectToday = "//div[@class='Homepage_emailMarketingContainer__ocQ4K']//option[@value='0'][normalize-space()='Today']";
-    private final String todayClickRate = "//p[normalize-space()='Click Rate']";
-    private final String todayClickRatePercentage = "//p[text()='Click Rate']/following-sibling::div/p";
-    private final String todayOpenRate = "//p[normalize-space()='Open Rate']";
-    private final String todayOpenRatePercentage = "//p[text()='Open Rate']/following-sibling::div/p";
-    private final String todayUnsubscribed = "//p[normalize-space()='Unsubscribed']";
-    private final String todayUnsubscribedPercentage = "//p[text()='Unsubscribed']/following-sibling::div/p";
-    private final String todayClicksPerUniqueOpens = "//p[normalize-space()='Clicks Per Unique Opens']";
-    private final String todayClicksPerUniqueOpensPercentage = "//p[text()='Clicks Per Unique Opens']/following-sibling::div/p\n";
-
-    //Yesterday
-    private final String selectYesterday = "//div[@class='Homepage_emailMarketingContainer__ocQ4K']//option[@value='1'][normalize-space()='Yesterday']";
-    private final String yesterdayClickRate = "//p[normalize-space()='Click Rate']";
-    private final String yesterdayClickRatePercentage = "//p[text()='Click Rate']/following-sibling::div/p";
-    private final String yesterdayOpenRate = "//p[normalize-space()='Open Rate']";
-    private final String yesterdayOpenRatePercentage = "//p[text()='Open Rate']/following-sibling::div/p";
-    private final String yesterdayUnsubscribed = "//p[normalize-space()='Unsubscribed']";
-    private final String yesterdayUnsubscribedPercentage = "//p[text()='Unsubscribed']/following-sibling::div/p";
-    private final String yesterdayClicksPerUniqueOpens = "//p[normalize-space()='Clicks Per Unique Opens']";
-    private final String yesterdayClicksPerUniqueOpensPercentage = "//p[text()='Clicks Per Unique Opens']/following-sibling::div/p\n";
-
-    //Last 5 days
-    private final String selectlast5days = "//div[@class='Homepage_emailMarketingContainer__ocQ4K']//option[@value='4'][normalize-space()='Last 5 days']";
-    private final String last5daysClickRate = "//p[normalize-space()='Click Rate']";
-    private final String last5daysClickRatePercentage = "//p[text()='Click Rate']/following-sibling::div/p";
-    private final String last5daysOpenRate = "//p[normalize-space()='Open Rate']";
-    private final String last5daysOpenRatePercentage = "//p[text()='Open Rate']/following-sibling::div/p";
-    private final String last5daysUnsubscribed = "//p[normalize-space()='Unsubscribed']";
-    private final String last5daysUnsubscribedPercentage = "//p[text()='Unsubscribed']/following-sibling::div/p";
-    private final String last5daysClicksPerUniqueOpens = "//p[normalize-space()='Clicks Per Unique Opens']";
-    private final String last5daysClicksPerUniqueOpensPercentage = "//p[text()='Clicks Per Unique Opens']/following-sibling::div/p\n";
-
-    //Last 10 days
-    private final String selectlast10days = "//div[@class='Homepage_emailMarketingContainer__ocQ4K']//option[@value='9'][normalize-space()='Last 10 days']";
-    private final String last10daysClickRate = "//p[normalize-space()='Click Rate']";
-    private final String last10daysClickRatePercentage = "//p[text()='Click Rate']/following-sibling::div/p";
-    private final String last10daysOpenRate = "//p[normalize-space()='Open Rate']";
-    private final String last10daysOpenRatePercentage = "//p[text()='Open Rate']/following-sibling::div/p";
-    private final String last10daysUnsubscribed = "//p[normalize-space()='Unsubscribed']";
-    private final String last10daysUnsubscribedPercentage = "//p[text()='Unsubscribed']/following-sibling::div/p";
-    private final String last10daysClicksPerUniqueOpens = "//p[normalize-space()='Clicks Per Unique Opens']";
-    private final String last10daysClicksPerUniqueOpensPercentage = "//p[text()='Clicks Per Unique Opens']/following-sibling::div/p\n";
-
-    //Last 30 days
-    private final String selectlast30days = "//div[@class='Homepage_emailMarketingContainer__ocQ4K']//option[@value='29'][normalize-space()='Last 30 days']";
-    private final String last30daysClickRate = "//p[normalize-space()='Click Rate']";
-    private final String last30daysClickRatePercentage = "//p[text()='Click Rate']/following-sibling::div/p";
-    private final String last30daysOpenRate = "//p[normalize-space()='Open Rate']";
-    private final String last30daysOpenRatePercentage = "//p[text()='Open Rate']/following-sibling::div/p";
-    private final String last30daysUnsubscribed = "//p[normalize-space()='Unsubscribed']";
-    private final String last30daysUnsubscribedPercentage = "//p[text()='Unsubscribed']/following-sibling::div/p";
-    private final String last30daysClicksPerUniqueOpens = "//p[normalize-space()='Clicks Per Unique Opens']";
-    private final String last30daysClicksPerUniqueOpensPercentage = "//p[text()='Clicks Per Unique Opens']/following-sibling::div/p\n";
     private final String viewMore = "//a[@href='/email-marketing'][normalize-space()='View More']";
 
     //==================================== Tasks Locators ==============================================
@@ -210,9 +158,11 @@ public class HomePage {
     //================================== Home Page Notification Method ====================================
     public void notificationCountMsg() {
         try {
+            page.waitForTimeout(3000);
         Locator notify = page.locator(notificationCount);
         notify.waitFor();
             int Count = Integer.parseInt(page.locator(notificationCount).innerText());
+            page.waitForTimeout(2000);
             System.out.println("Notification message count:- " + Count);
         } catch (Exception e) {
 
@@ -222,6 +172,7 @@ public class HomePage {
     public void notificationIcon() {
             Locator notify = page.locator(notificationIconClick);
             notify.waitFor();
+            page.waitForTimeout(2000);
             page.locator(notificationIconClick).click();
             System.out.println("Notification modal page open successfully");
     }
@@ -305,37 +256,49 @@ public class HomePage {
     //================================== Home Page Send Email Method ====================================
     public boolean clickSendEmailIcon(String email) {
         page.waitForTimeout(4000);
+
         // Click the Send Email icon
         page.locator(sendEmailIcon).click();
-        page.locator(toReceiptantName).click();
         page.waitForTimeout(2000);
-        Locator input = page.locator(selectReceiptant);
-        // Fill the desired recipient email
-        input.fill(email);
 
-        // Wait for the dropdown option that matches your input email
+        // Click the To field to activate it
+        page.locator(toReceiptantName).click();
+        Locator input = page.locator(selectReceiptant);
+
+        // Fill the email slowly to trigger suggestions
+        input.fill("");
+        input.type(email, new Locator.TypeOptions().setDelay(100)); // type with delay
+
+        // Locator for the dropdown option
         Locator resultOption = page.locator(
                 "//div[contains(@class,'ant-select-item-option-content') and contains(text(),'" + email + "')]"
         );
 
-        if (resultOption.isVisible()) {
-            resultOption.waitFor(new Locator.WaitForOptions().setTimeout(4000));
+        // Wait for the dropdown option to appear and click it
+        try {
+            resultOption.waitFor(new Locator.WaitForOptions().setTimeout(5000).setState(WaitForSelectorState.VISIBLE));
             resultOption.click();
             System.out.println("Recipient selected: " + email);
             return true;
-        } else {
-            String noValidData = page.locator(noEmailFound).innerText();
-            System.out.println("No valid search email found: " + noValidData);
+        } catch (Exception e) {
+            if (page.locator(noEmailFound).isVisible()) {
+                String noValidData = page.locator(noEmailFound).innerText();
+                System.out.println("No valid search email found: " + noValidData);
+            } else {
+                System.out.println("Recipient dropdown option did not appear for: " + email);
+            }
             return false;
         }
     }
 
     public void receiptantName() {
+        page.waitForTimeout(1000);
         String mailSubject = prop.getProperty("MailSubject");
         page.locator(subject).fill(mailSubject);
     }
 
     public void clickEmailNowButton() {
+        page.waitForTimeout(2000);
         String mailBody = prop.getProperty("MailBody");
         page.locator(body).fill(mailBody);
         page.locator(sendEmailNowButton).click();
@@ -344,6 +307,11 @@ public class HomePage {
 
     //================================== Home Page Make a Call Method ====================================
     public void makeCallIcon() {
+        page.context().grantPermissions(
+                Arrays.asList("microphone"),
+                new BrowserContext.GrantPermissionsOptions().setOrigin("https://app.novacrm.ca")
+        );
+
         page.waitForTimeout(4000);
         page.locator(makeACallIcon).click();
     }
@@ -386,7 +354,7 @@ public class HomePage {
 
     //==================================== Pages Redirection Method =========================================
     public void homePage() {
-        page.waitForTimeout(2000);
+        page.waitForTimeout(4000);
         page.locator(home).click();
         page.waitForLoadState(); // Wait for navigation
         String currentURL = page.url();
@@ -394,7 +362,7 @@ public class HomePage {
     }
 
     public void peoplePage() {
-        page.waitForTimeout(2000);
+        page.waitForTimeout(3000);
         page.locator(people).click();
         page.waitForLoadState();
         String currentURL = page.url();
@@ -434,7 +402,7 @@ public class HomePage {
     }
 
     public void dealsPage() {
-        page.waitForTimeout(2000);
+        page.waitForTimeout(3000);
         page.locator(deals).click();
         page.waitForLoadState();
         String currentURL = page.url();
@@ -449,8 +417,9 @@ public class HomePage {
 
     public void clickViewCreditHistory() {
         page.locator(creditHistory).click();
-        page.waitForTimeout(3000);
+        page.waitForTimeout(2000);
         page.goBack();
+        page.waitForTimeout(2000);
     }
 
     public void verifyNewLeads() {
@@ -460,8 +429,9 @@ public class HomePage {
 
     public void clickViewAllNewLeads() {
         page.locator(newLeadsViewAll).click();
-        page.waitForTimeout(3000);
+        page.waitForTimeout(2000);
         page.goBack();
+        page.waitForTimeout(2000);
     }
 
     public void verifyTodayTask() {
@@ -471,8 +441,9 @@ public class HomePage {
 
     public void clickViewAllTodayTask() {
         page.locator(todayTaskViewAll).click();
-        page.waitForTimeout(3000);
+        page.waitForTimeout(2000);
         page.goBack();
+        page.waitForTimeout(2000);
     }
 
     public void verifyIncompleteFollowUps() {
@@ -482,20 +453,18 @@ public class HomePage {
 
     public void clickViewAllIncompleteFollowUps() {
         page.locator(incompleteFollowUpsViewAll).click();
-        page.waitForTimeout(3000);
+        page.waitForTimeout(2000);
         page.goBack();
+        page.waitForTimeout(2000);
     }
 
     //================================= Email Marketing methods ==========================================
     public void selectFilterOption(String filter) {
-        // Scroll down by 100px
-        page.evaluate("window.scrollBy(0, 100);");
         page.waitForTimeout(3000);
-
-        //page.locator(clickFilter).click();
         switch (filter.toLowerCase()) {
             case "today":
                 page.selectOption(clickFilter, new SelectOption().setValue("0"));
+                page.evaluate("window.scrollBy(0, 400);");
                 break;
             case "yesterday":
                 page.selectOption(clickFilter, new SelectOption().setValue("1"));
@@ -515,6 +484,7 @@ public class HomePage {
     }
 
     public void verifyEmailMarketingStats(String filter) {
+        page.waitForTimeout(2000);
         String label = filter.substring(0, 1).toUpperCase() + filter.substring(1).toLowerCase();
 
         System.out.println("===== Verifying Email Marketing for: " + label + " =====");
@@ -547,7 +517,7 @@ public class HomePage {
 
     public void setViewMore() {
         page.locator(viewMore).click();
-        page.waitForTimeout(2000);
+        page.waitForTimeout(3000);
         System.out.println("Redirected on Email Marketing page");
     }
 
@@ -579,11 +549,12 @@ public class HomePage {
 
     //==================================== Automation Method ==============================================
     public void automationViewMore() {
+        page.waitForTimeout(3000);
         page.locator(automationViewAll).click();
     }
 
     public void automationPage() {
-        page.waitForTimeout(4000);
+        page.waitForTimeout(2000);
         page.waitForLoadState();
         String currentURL = page.url();
         System.out.println("Current page: Automation | URL: " + currentURL);
@@ -591,15 +562,17 @@ public class HomePage {
 
     //==================================== Social Media Methods ==============================================
     public void selectSocialMediaAccount(String accountType) {
-        page.waitForTimeout(10000);
-        page.evaluate("window.scrollBy(0, 500);");
         page.waitForTimeout(2000);
         page.locator(socialMediaDropdown).click();
         switch (accountType.toLowerCase()) {
             case "facebook":
+                page.waitForTimeout(2000);
+                page.evaluate("window.scrollBy(0, 450);");
+                page.waitForTimeout(2000);
                 page.locator(selectFacebook).click();
                 break;
             case "instagram":
+                page.waitForTimeout(2000);
                 page.locator(selectInstagram).click();
                 break;
             default:
