@@ -230,7 +230,7 @@ public class HomePageStepDefinition {
         homePage.clickViewAllIncompleteFollowUps();
     }
 
-    // =========================================== Email Marketing ====================================================
+    // =========================================== Email Marketing ==============================================
     @When("User selects the {string} option in the filter dropdown")
     public void user_selects_the_filter(String filter) {
         homePage.selectFilterOption(filter);

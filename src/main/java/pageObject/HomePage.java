@@ -267,7 +267,7 @@ public class HomePage {
 
         // Fill the email slowly to trigger suggestions
         input.fill("");
-        input.type(email, new Locator.TypeOptions().setDelay(100)); // type with delay
+        input.type(email, new Locator.TypeOptions().setDelay(200)); // type with delay
 
         // Locator for the dropdown option
         Locator resultOption = page.locator(
@@ -292,7 +292,7 @@ public class HomePage {
     }
 
     public void receiptantName() {
-        page.waitForTimeout(1000);
+        page.waitForTimeout(2000);
         String mailSubject = prop.getProperty("MailSubject");
         page.locator(subject).fill(mailSubject);
     }
