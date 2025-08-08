@@ -7,8 +7,8 @@ Feature: Verify and validate the dashboard field functionality
 
   Scenario: Verify and validate the notification functionality
     Given User logs in with valid credentials and lands on the dashboard page
-    When User Validate Notification Bell icon notification message count displayed on homepage
-    Then User Validate home page Notification Bell icon on click redirection
+    When User Validate home page Notification Bell icon on click redirection
+    Then User Validate Notification Bell icon notification message count displayed on homepage
 
   Scenario: Verify and validate the "Add a New Lead" functionality
     Given User logs in with valid credentials and lands on the dashboard page
@@ -26,8 +26,6 @@ Feature: Verify and validate the dashboard field functionality
       When The user clicks on the Send a Email icon
     Then User enter the Recipient name and add the Subject
     And Enter the data in the body and click on the Send Email Now button
-
-
 
   Scenario: Verify and validate the "Make a Call" functionality
     Given User logs in with valid credentials and lands on the dashboard page

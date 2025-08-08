@@ -22,7 +22,7 @@ public class HomePageStepDefinition {
 
     //========================= Home Page Search StepDefinition ========================================
     @Given("User logs in with valid credentials and lands on the dashboard page")
-    public void user_logs_in_and_lands_on_dashboard() {
+    public void user_is_on_the_Dashboard_page() {
         try {
             testContext.testBase.login(); // Login happens here
         } catch (IOException e) {
@@ -41,14 +41,14 @@ public class HomePageStepDefinition {
     }
 
     //================================== Home Page Notification Step Definition ====================================
-    @When("User Validate Notification Bell icon notification message count displayed on homepage")
-    public void user_validate_notification_bell_icon_count() {
-        homePage.notificationCountMsg();
-    }
-
     @Then("User Validate home page Notification Bell icon on click redirection")
     public void user_validate_home_page_Notification_Bell_icon() {
         homePage.notificationIcon();
+    }
+
+    @When("User Validate Notification Bell icon notification message count displayed on homepage")
+    public void user_validate_notification_bell_icon_count() {
+        homePage.notificationCountMsg();
     }
 
     //================================== Home Page Add New Lead StepDefinition ====================================

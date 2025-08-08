@@ -14,13 +14,12 @@ public class LoginValidation {
     private final String forgotPasswordLink = "//a[normalize-space()='Forgot Password?']";
     private final String emailInput = "//input[@id='email']";
     private final String errorMessage = "//li[contains(text(),\"can't find\")]";
-    private final String getYourPasswordButton = "//button[normalize-space()='Get your password']"; // Corrected - previously same as input!
+    private final String getYourPasswordButton = "//button[normalize-space()='Get your password']";
     private final String backToLoginButton = "//button[normalize-space()='Back to Login']";
 
     public LoginValidation(Page page) {
         this.page = page;
     }
-
     public void enterCredentials(String username, String password) {
         page.fill("[placeholder='Enter your email']", username);
         page.fill("[placeholder='Enter your password']", password);
@@ -35,14 +34,13 @@ public class LoginValidation {
     }
 
     public void logout () {
-        page.waitForTimeout(6000);
+        page.waitForTimeout(8000);
         page.locator(clickOnAvtar).click();
-        page.waitForTimeout(2000);
+        page.waitForTimeout(3000);
         String userName = page.locator(getText).innerText();
         System.out.println("Account Holder Name: " + userName);
         page.locator(logout).click();
         System.out.println("Logout Successfully!!!");
-
     }
 
     public boolean isLoginFailed() {
@@ -51,22 +49,24 @@ public class LoginValidation {
     }
     public String getLoginErrorMessage() {
         if (isLoginFailed()) {
+            page.waitForTimeout(2000);
             return page.locator(invalidCredentialsLocator).innerText().trim();
         }
         return null;
     }
 
-//====================================================== Forgot Password =========================================================
-
+  //=============================================== Forgot Password ===================================================
     public void clickForgotPassword() {
         page.waitForTimeout(3000);
         page.locator(forgotPasswordLink).click();
+        page.waitForTimeout(1000);
         System.out.println("Clicked on Forgot Password link");
     }
 
     public void enterEmail(String email) {
         page.waitForTimeout(3000);
         page.locator(emailInput).fill(email);
+        page.waitForTimeout(1000);
         System.out.println("Entered email: " + email);
     }
 
@@ -76,6 +76,7 @@ public class LoginValidation {
         System.out.println("Clicked Get Your Password button");
 
         if (email.contains("@") && email.contains(".")) {
+            page.waitForTimeout(1000);
             System.out.println("Valid email used: " + email);
         } else {
 
@@ -89,6 +90,8 @@ public class LoginValidation {
     public void clickBackToLogin() {
         page.waitForTimeout(3000);
         page.locator(backToLoginButton).click();
+        page.waitForTimeout(1000);
         System.out.println("User successfully redirected to the Login page");
     }
 }
+

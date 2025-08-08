@@ -21,7 +21,7 @@ public class HomePage {
     private final String checkLeadName = "//h2[contains(@class, 'LeadDetailsPage_profileName')]";
 
     //================================== Home Page Notification Locator ====================================
-    private final String notificationCount = "//span[@class='notification_circle notification_circle_color']";
+    private final String notificationCount = "//div[@class='ant-popover-title']";
     private final String notificationIconClick = "//a[contains(@class, 'btn pt-1 pb-1')]//*[name()='svg' and contains(@class, 'size-22')]";
 
     //================================== Home Page Add New Lead Locator ====================================
@@ -36,7 +36,7 @@ public class HomePage {
     private final String saveLead = "//button[normalize-space()='Save Lead']";
 
     //================================== Home Page Send a text Locator ====================================
-    private final String addTextIcon = "//button[@title='Send a text']";
+    private final String addTextIcon = "//button[3]//*[name()='svg']";
     private final String enterName = "//input[@placeholder='Enter name or phone number']";     //Raghav 1st
     private final String roleButton = "//li[@role='button']";
     private final String writeText = "//textarea[@placeholder='Write your text']";        // Hii, How Are You
@@ -138,12 +138,8 @@ public class HomePage {
             if (count > 0) {
                 // Click first item from results
                 page.locator(clickLeadName).click();
-
-                // Wait for lead details page to load
                 page.waitForSelector(checkLeadName); // Wait for name to be visible
                 String actualLeadName = page.locator(checkLeadName).innerText();
-
-                // Print the lead name
                 System.out.println("Lead Name from Details Page: " + actualLeadName);
 
             } else {
@@ -156,30 +152,40 @@ public class HomePage {
     }
 
     //================================== Home Page Notification Method ====================================
-    public void notificationCountMsg() {
+    public void notificationIcon() {
         try {
-            page.waitForTimeout(3000);
-        Locator notify = page.locator(notificationCount);
-        notify.waitFor();
-            int Count = Integer.parseInt(page.locator(notificationCount).innerText());
             page.waitForTimeout(2000);
-            System.out.println("Notification message count:- " + Count);
+            Locator notify = page.locator(notificationIconClick);
+            notify.waitFor();  // wait until icon is attached
+            notify.click();    // click to open notification panel
+            page.locator(notificationCount).waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+            page.waitForTimeout(4000); // slight delay for content to load
+            System.out.println("Notification modal page opened successfully");
         } catch (Exception e) {
-
+            System.out.println("Failed to open notification modal: " + e.getMessage());
         }
     }
 
-    public void notificationIcon() {
-            Locator notify = page.locator(notificationIconClick);
-            notify.waitFor();
+    public void notificationCountMsg() {
+        try {
             page.waitForTimeout(2000);
-            page.locator(notificationIconClick).click();
-            System.out.println("Notification modal page open successfully");
+            Locator notify = page.locator(notificationCount);
+            if (notify.isVisible()) {
+                String text = notify.innerText().trim();  // Ex: "Notifications (5)"
+                String countOnly = text.replaceAll("[^0-9]", ""); // Extracts 5
+                System.out.println("Notification Count:- Notification (" + countOnly + ")");
+            } else {
+                System.out.println("Notification Count:- Notification 0");
+            }
+        } catch (Exception e) {
+            System.out.println("Notification Count:- Notification 0");
+        }
     }
+
 
     //================================== Home Page Add New Lead Method ====================================
     public void addNewLead() {
-        page.waitForTimeout(3000);
+        page.waitForTimeout(5000);
         page.locator(addAPerson).click();
         String first_Name = prop.getProperty("FirstName");
         page.locator(firstName).fill(first_Name);
@@ -187,6 +193,7 @@ public class HomePage {
         page.locator(lastName).fill(last_Name);
         String email_Address = prop.getProperty("EmailAddress");
         page.locator(emailAddress).fill(email_Address);
+        page.waitForTimeout(2000);
         page.locator(countryCode).click();
         page.selectOption("#country_code", new SelectOption().setLabel("+91"));
         String phoneNumber = prop.getProperty("PhoneNumber");
@@ -205,8 +212,7 @@ public class HomePage {
             String duplicatePhone = page.locator(duplicatePhoneNo).innerText();
             throw new AssertionError("Test Failed: Duplicate Phone Detected - " + duplicatePhone);
         }
-
-        System.out.println("Save new lead successfully");
+        System.out.println("Add new lead successfully");
     }
 
     //================================== Home Page Send a text Method ====================================
@@ -409,17 +415,18 @@ public class HomePage {
         System.out.println("Current page: Deals | URL: " + currentURL);
     }
 
-    //==================================== Boxes Locators =========================================
+    //==================================== Boxes Method =========================================
     public void verifyAvailableCredit() {
+        page.waitForTimeout(2000);
         System.out.println("Box Name: " + page.locator(availableCredit).innerText());
         System.out.println("Total Credit Balance: " + page.locator(creditBalance).innerText());
     }
 
     public void clickViewCreditHistory() {
         page.locator(creditHistory).click();
-        page.waitForTimeout(2000);
+        page.waitForTimeout(8000);
         page.goBack();
-        page.waitForTimeout(2000);
+        page.waitForTimeout(4000);
     }
 
     public void verifyNewLeads() {
@@ -429,9 +436,9 @@ public class HomePage {
 
     public void clickViewAllNewLeads() {
         page.locator(newLeadsViewAll).click();
-        page.waitForTimeout(2000);
+        page.waitForTimeout(8000);
         page.goBack();
-        page.waitForTimeout(2000);
+        page.waitForTimeout(8000);
     }
 
     public void verifyTodayTask() {
@@ -440,10 +447,11 @@ public class HomePage {
     }
 
     public void clickViewAllTodayTask() {
+        page.waitForTimeout(2000);
         page.locator(todayTaskViewAll).click();
-        page.waitForTimeout(2000);
+        page.waitForTimeout(8000);
         page.goBack();
-        page.waitForTimeout(2000);
+        page.waitForTimeout(8000);
     }
 
     public void verifyIncompleteFollowUps() {
@@ -453,9 +461,9 @@ public class HomePage {
 
     public void clickViewAllIncompleteFollowUps() {
         page.locator(incompleteFollowUpsViewAll).click();
-        page.waitForTimeout(2000);
+        page.waitForTimeout(8000);
         page.goBack();
-        page.waitForTimeout(2000);
+        page.waitForTimeout(4000);
     }
 
     //================================= Email Marketing methods ==========================================

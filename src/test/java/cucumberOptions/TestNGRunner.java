@@ -7,7 +7,8 @@ import org.testng.annotations.DataProvider;
 @CucumberOptions(
         features = {
                 "src/main/resources/A_login.feature",
-                "src/main/resources/B_homepage.feature"
+                "src/main/resources/B_homepage.feature",
+                "src/main/resources/people.feature",
         },
         glue = "stepDefinitions",
         monochrome = true,
@@ -25,5 +26,4 @@ public class TestNGRunner extends AbstractTestNGCucumberTests {
 //                return super.scenarios();
 //        }
 }
-
 
